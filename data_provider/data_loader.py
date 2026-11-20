@@ -15,6 +15,7 @@ Regions of one series:
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -65,8 +66,11 @@ def load_series(root_path: str, dataset: str) -> Series:
     if not (values_path.exists() and labels_path.exists()):
         cache.mkdir(parents=True, exist_ok=True)
         values, labels = _read_long_csv(root / "data" / f"{dataset}.csv")
-        np.save(values_path, values)
-        np.save(labels_path, labels)
+        # Write under temporary names and rename, so an interrupted run never leaves a truncated cache behind.
+        for path, array in ((values_path, values), (labels_path, labels)):
+            tmp = path.with_name(f"{path.stem}.{os.getpid()}.tmp.npy")
+            np.save(tmp, array)
+            tmp.replace(path)
     values = np.load(values_path, mmap_mode="r")
     labels = np.load(labels_path, mmap_mode="r")
     return Series(dataset, values, labels, int(row.iloc[0]["train_lens"]))
