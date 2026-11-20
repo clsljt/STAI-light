@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+dataset/data/
+dataset/cache/
+results/
+checkpoints/
+*.baiduyun.uploading.cfg

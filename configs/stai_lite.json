@@ -1,0 +1,30 @@
+{
+    "model": {
+        "seq_len": 192,
+        "d_model": 64,
+        "n_heads": 4,
+        "num_global_tokens": 16,
+        "dropout": 0.1,
+        "channel_fusion_gate_init": -3.0,
+        "cross_attn_gate_init": -3.0
+    },
+    "train": {
+        "train_stride": 4,
+        "validation_ratio": 0.2,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "weight_decay": 0.00001,
+        "train_epochs": 20,
+        "patience": 5,
+        "use_amp": true,
+        "grad_clip": 1.0,
+        "mask_ratio": 0.25,
+        "mask_patch_len": 8,
+        "unmasked_loss_weight": 0.1,
+        "frequency_loss_weight": 0.05
+    },
+    "test": {
+        "frequency_score_weight": 0.05,
+        "batch_size": 128
+    }
+}
